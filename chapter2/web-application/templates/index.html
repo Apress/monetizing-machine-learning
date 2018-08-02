@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<META name="viewport" content="width=device-width, initial-scale=1">
+	<META charset="UTF=8">
+	<TITLE>Predicting Bicycle Rental Demand</TITLE>
+	<LINK rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<SCRIPT src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></SCRIPT>
+	<SCRIPT src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></SCRIPT>
+	<SCRIPT src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></SCRIPT>
+	<STYLE>
+		.btn-circle.btn-xl {
+		    width: 70px;
+		    height: 70px;
+		    padding: 10px 2px;
+		    border-radius: 35px;
+		    font-size: 17px;
+		    line-height: 1.33;
+		}
+	</STYLE> 
+</HEAD>
+<BODY>
+<DIV class="container">
+	<TABLE border=0 cellpadding="1">
+		<TR>
+	        <td colspan="3"  style="background-color:silver;"><div align="center"><H1><font color="black">Chapter 2: Predict Bicycle Rental<BR>Demand</font></H1></div></td>
+	    </TR>
+		<TR>
+			<TD>
+				<table border =1>
+				<TR>
+					<TD valign="bottom"></TD>	 
+							 
+					<TD>
+						<table align=center  cellpadding=5 border=0>
+							<TR><TD align=center>
+			 
+							<button type="button" onclick="calculateBikeDemand(this)" id="season_spring" class="btn btn-info btn-circle btn-xl"><i class="fa fa-check">Spring</i></button>
+							<button type="button" onclick="calculateBikeDemand(this)" id="season_summer" class="btn btn-warning btn-circle btn-xl"><i class="fa fa-check">Summer</i></button>
+							<button type="button" onclick="calculateBikeDemand(this)" id="season_fall" class="btn btn-primary btn-circle btn-xl"><i class="fa fa-check">Fall</i></button>
+							<button type="button" onclick="calculateBikeDemand(this)" id="season_winter" class="btn btn-secondary btn-circle btn-xl"><i class="fa fa-check">Winter</i></button>
+			 
+						</TD></TR></table>
+					</TD>
+					<TD valign="bottom"></TD>
+				</TR>
+				<TR align=center>
+					<TD >			
+							<table cellpadding=5 border=0>
+								<TR><TD></TD></TR>
+								<TR><TD><button type="button" onclick="calculateBikeDemand(this)" id="work" class="btn btn-secondary btn-circle btn-xl"><i class="fa fa-check">Work</i></button></TD></TR>
+								<TR><TD><button type="button" onclick="calculateBikeDemand(this)" id="holiday" class="btn btn-warning btn-circle btn-xl"><i class="fa fa-check">Holiday</i></button></TD></TR>
+								<TR><TD><button type="button" class="btn btn btn-circle btn-xl"></button></TD></TR>
+								<TR><TD><button type="button" onclick="calculateBikeDemand(this)" id="reset" class="btn btn-danger btn-circle btn-xl"><i class="fa fa-check">Reset</i></button></TD></TR>
+							</table>
+
+						</TD>
+						<TD>
+							<img src="../static/images/bike_one.png" alt="Bicycle" id="bike_out"
+				              style='padding:1px; border:0px solid #021a40; width: 500px; height:500px;'>
+				              <BR>
+				              <font size="4" color="blue" id="query">Ready</font>
+				          </TD>
+				             
+				          <TD>
+				              	
+				           <table cellpadding=5 border=0>
+								 <TR><TD> </TD>
+				          		</TR>
+				              
+								<TR> 
+									<TD><button type="button" onclick="calculateBikeDemand(this)" id="time_8" class="btn btn-secondary btn-circle btn-xl"><i class="fa fa-check">8 a.m</i></button>
+									</TD>
+								</TR>
+								<TR> 
+									<TD><button type="button" onclick="calculateBikeDemand(this)" id="time_12" class="btn btn-warning btn-circle btn-xl"><i class="fa fa-check">12 p.m</i></button></TD>
+								</TR>
+								<TR>
+									<TD><button type="button" onclick="calculateBikeDemand(this)" id="time_18" class="btn btn-primary btn-circle btn-xl"><i class="fa fa-check">18 p.m</i></button></TD>
+								</TR>
+								<TR>
+									<TD><button type="button" onclick="calculateBikeDemand(this)" id="time_23" class="btn btn-dark btn-circle btn-xl"><i class="fa fa-check">23 p.m</i></button></TD>
+								</TR>
+						</table>
+
+				    </TD>
+				</TR>
+				<TR>
+					<TD align=center></TD>
+					<TD>
+						<table align=center  cellpadding=5 border=0>
+							<TR><TD align=center>
+
+					      		<button type="button" onclick="calculateBikeDemand(this)" id="temp_0" class="btn btn-dark btn-circle btn-xl"><i class="fa fa-check">0&#8451;</i></button>
+								<button type="button" onclick="calculateBikeDemand(this)" id="temp_10" class="btn btn-success btn-circle btn-xl"><i class="fa fa-check">10&#8451;</i></button>
+								<button type="button" onclick="calculateBikeDemand(this)" id="temp_20" class="btn btn-info btn-circle btn-xl"><i class="fa fa-check">20&#8451;</i></button>
+								<button type="button" onclick="calculateBikeDemand(this)" id="temp_30" class="btn btn-warning btn-circle btn-xl"><i class="fa fa-check">30&#8451;</i></button>
+							</TD>
+						</TR>
+						</table>
+					</TD>
+						<TD align='right'></TD>
+				</TR>
+				</table>
+			</TD>
+		</TR>
+	</table>
+
+</DIV>
+</BODY>
+
+<SCRIPT>
+	var HOLIDAY = {{mean_holiday}}   	// day is holiday or not
+	var HOUR = {{mean_hour}}       		// hour (0 to 23)
+	var SEASON_1 = {{mean_sesaon1}}  	// 1:spring
+	var SEASON_2 ={{mean_sesaon2}}  	// 2:summer
+	var SEASON_3 = {{mean_sesaon3}}  	// 3:fall
+	var SEASON_4 = {{mean_sesaon4}}  	// 4:winter
+	var TEMP = {{mean_temp}}      		// norm temp in Celsius -8 to +39
+
+	var INTERCEPT = {{model_intercept}}
+	var COEF_HOLIDAY = {{model_holiday}}   	// day is holiday or not
+	var COEF_HOUR = {{model_hour}}        	// hour (0 to 23)
+	var COEF_SEASON_1 = {{model_season1}}   // 1:spring
+	var COEF_SEASON_2 = {{model_season2}}   // 2:summer
+	var COEF_SEASON_3 = {{model_season3}}  	// 3:fall
+	var COEF_SEASON_4 = {{model_season4}}   // 4:winter
+	var COEF_TEMP = {{model_temp}}      	// norm temp in Celsius -8 to +39
+
+	var season = 'Fall' 		// default text for display
+	var temp = '15c'
+	var holiday = 'Work'
+	var hour = '11am'
+
+	function calculateBikeDemand(elem) {
+		var output = 'Ready';
+
+		// apply new value to stored variables
+		if (elem.id == 'reset') {
+			// reset all values to defaults
+			HOLIDAY = {{mean_holiday}}   
+			HOUR = {{mean_hour}}        
+			SEASON_1 = {{mean_sesaon1}}
+			SEASON_2 = {{mean_sesaon2}}
+			SEASON_3 = {{mean_sesaon3}} 
+			SEASON_4 = {{mean_sesaon4}}
+			TEMP = {{mean_temp}}       
+
+			INTERCEPT = {{model_intercept}}
+			COEF_HOLIDAY = {{model_holiday}}    
+			COEF_HOUR = {{model_hour}}         
+			COEF_SEASON_1 = {{model_season1}}  
+			COEF_SEASON_2 = {{model_season2}} 
+			COEF_SEASON_3 = {{model_season3}} 
+			COEF_SEASON_4 = {{model_season4}} 
+			COEF_TEMP = {{model_temp}}   
+
+			season = 'Fall'
+			temp = '15c'
+			holiday = 'Work'
+			hour = '11am'
+			bike_out = 'static/images/bike_zero.png'
+
+		} else {
+			if (elem.id == 'temp_0') {
+				TEMP = 0.1
+				temp = '0c'
+			} else if (elem.id == 'temp_10') {
+				TEMP = 0.4
+				temp = '10c'
+			} else if (elem.id == 'temp_20') {
+				TEMP =	0.7
+				temp = '20c'
+			} else if (elem.id == 'temp_30') {
+				TEMP = 0.9
+				temp = '30c'
+			} else if (elem.id == 'time_8') {
+				HOUR = 8
+				hour = '8am'
+			} else if (elem.id == 'time_12') {
+				HOUR = 12
+				hour = '12pm'
+			} else if (elem.id == 'time_18') {
+				HOUR = 18
+				hour = '18pm'
+			} else if (elem.id == 'time_23') {
+				HOUR = 23
+				hour = '23pm'
+			} else if (elem.id == 'work') {
+				HOLIDAY = 0
+				holiday = 'Work'
+			} else if (elem.id == 'holiday') {
+				HOLIDAY = 1
+				holiday = 'Holiday'
+			} else if (elem.id == 'season_spring') {
+				SEASON_1 = 1
+				SEASON_2 = 0
+				SEASON_3 = 0
+				SEASON_4 = 0
+				season = 'Spring'
+			} else if (elem.id == 'season_summer') {
+				SEASON_1 = 0
+				SEASON_2 = 1
+				SEASON_3 = 0
+				SEASON_4 = 0
+				season = 'Summer'
+			} else if (elem.id == 'season_fall') {
+				SEASON_1 = 0
+				SEASON_2 = 0
+				SEASON_3 = 1
+				SEASON_4 = 0
+				season = 'Fall'
+			} else if (elem.id == 'season_winter') {
+				SEASON_1 = 0
+				SEASON_2 = 0
+				SEASON_3 = 0
+				SEASON_4 = 1
+				season = 'Winter'
+			}  
+
+			// recalculate the regression equation
+			rental_counts = INTERCEPT 
+			+ (HOLIDAY * COEF_HOLIDAY)  
+		    + (HOUR * COEF_HOUR)  
+		    + (SEASON_1 * COEF_SEASON_1)  + (SEASON_2 * COEF_SEASON_2)  
+		    + (SEASON_3 * COEF_SEASON_3)  + (SEASON_4 * COEF_SEASON_4)  
+		    + (TEMP * COEF_TEMP)
+
+			// figure out which image to show
+			bike_out = 'static/images/bike_sixteen.png'
+		    if (rental_counts < 0) {
+		    	rental_counts = 0
+		    	bike_out = 'static/images/bike_zero.png'
+		    } else if (rental_counts < 100) {
+		    	bike_out = 'static/images/bike_one.png'
+		    } else if (rental_counts < 200) {
+		    	bike_out = 'static/images/bike_four.png'
+		    } else if (rental_counts < 300) {
+		    	bike_out = 'static/images/bike_nine.png'}
+
+			// build a new string that is readable with variables select by user
+			// and new bike rental estimate
+			output = 'For ' + season + ' + ' + holiday + ' + ' + temp + ' + ' + hour + ' = ' + Math.round(rental_counts) + ' bikes';
+		}
+		// inject new value and image source directly into the HTML tag
+	    document.getElementById("query").innerHTML = output;
+	    document.getElementById('bike_out').src = bike_out
+  
+	}
+</SCRIPT>
+</HTML>

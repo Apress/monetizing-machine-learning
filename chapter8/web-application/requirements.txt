@@ -1,0 +1,5 @@
+gunicorn
+tensorflow
+flask
+matplotlib
+Pillow

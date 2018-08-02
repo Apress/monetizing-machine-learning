@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Pair Trading Booth</title>
+</head>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<body>
+
+<div class="container">
+ 
+	<FORM id='submit_params' method="POST" action="{{ url_for('get_pair_trade') }}">
+
+		<table  style="background-color:black;" border = 0>
+		    <tr>
+		    	<TD>
+					<p style="text-align:center">
+						<img src="static/images/ticker-title.png" alt="trading booth" style='padding:0px; border:0px solid #021a40; width: 100%; height: 100%'>
+					</p>
+				</TD>
+		</tr>
+		<tr>
+			<td>
+
+				<div class="container-fluid">
+				<div class="row">
+		  
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<p style="text-align:center">
+						<img src="static/images/up-arrow.png" alt="buy" style='padding:0px; border:0px solid #021a40; width: 20%; height: 20%'>
+						
+						<BR><font color="white">Buy: <B>{{long_size}}</b> shares<BR>Symbol: <B>{{long_symbol}}</B><BR>At: $<B>{{long_last_close}}</B></font>
+					</p>
+				</div>
+
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<label for="male"><font color="white">Budget Limit:</font></label><BR>
+						<input type="number" class="form-control" id="fare"
+						       placeholder="Enter trade budget" name="selected_budget" value="{{selected_budget}}"><BR>
+							<button class="btn btn-default" type="submit" style="width: 100%; height: 30px;">Get Trade</button>
+				</div>
+
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<p style="text-align:center">
+						<img src="static/images/down-arrow.png" alt="sell" style='padding:0px; border:0px solid #021a40; width: 20%; height: 20%'>
+						<BR><font color="white">Short: <B>{{short_size}}</b> shares<BR>Symbol: <B>{{short_symbol}}</B><BR>At: $<B>{{short_last_close}}</B></font>
+					 </p> 
+				</div>
+			</div>
+			</div>
+			</td>
+		</tr>
+	</table>
+</form>
+ 
+</div>
+</body>
+</html>

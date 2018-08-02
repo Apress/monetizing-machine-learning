@@ -1,0 +1,5 @@
+gunicorn
+flask
+pandas
+scipy
+wikipedia

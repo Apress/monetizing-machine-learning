@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Pair Trading Booth</title>
+</head>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<body>
+
+<div class="container">
+  
+		<table  style="background-color:black;" border = 0 cellpadding="5">
+		    <tr>
+		    	<TD>
+					<p style="text-align:center">
+						<img src="static/images/ticker-title.png" alt="trading booth" style='padding:0px; border:0px solid #021a40; width: 100%; height: 100%'>
+					</p>
+				</TD>
+		</tr>
+		<tr>
+			<td align="center">
+				<form action="{{ url_for('get_pair_trade')}}">
+					<button class="btn btn-default" type="submit" name="submit" style="width: 50%; height: 30px;" value="Back">Back</button>
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<table style="background-color:black;" border = 0 cellpadding="5" width="60%">
+					<tr><td><font color="white"><b>Going Short:</b></font></td>
+						<td><font color="white">{{short_symbol}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>Company Name:</b></font></td>
+						<td><font color="white">{{short_CompanyName}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>Sector:</b></font></td>
+						<td><font color="white">{{short_Sector}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>Industry:</b></font></td>
+						<td><font color="white">{{short_Industry}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>MarketCap:</b></font></td>
+						<td><font color="white">{{short_MarketCap}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>FinViz:</b></font></td>
+						<td><font color="white"><a href="{{short_finviz}}" target='_blank'>{{short_finviz}}</a></font></td>
+					</tr>
+					<tr>
+						<td colspan="2"><font color="white">{{short_intro}}</font></td>
+					</tr>
+				</table>
+				<br />
+				<table style="background-color:black;" border = 0 cellpadding="5" width="60%">
+					<tr><td><font color="white"><b>Going Long:</b></font></td>
+						<td><font color="white">{{long_symbol}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>Company Name:</b></font></td>
+						<td><font color="white">{{long_CompanyName}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>Sector:</b></font></td>
+						<td><font color="white">{{long_Sector}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>Industry:</b></font></td>
+						<td><font color="white">{{long_Industry}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>MarketCap:</b></font></td>
+						<td><font color="white">{{long_MarketCap}}</font></td>
+					</tr>
+					<tr>
+						<td><font color="white"><b>FinViz:</b></font></td>
+						<td><font color="white"><a href="{{long_finviz}}" target='_blank'>{{long_finviz}}</a></font></td>
+					</tr>
+					<tr>
+						<td colspan="2"><font color="white">{{long_intro}}</font></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				{{chart2_plot}}
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				{{chart_diff_plot}}
+			</td>
+		</tr>
+		<tr><td align="center">
+			<form action="{{ url_for('get_pair_trade')}}">
+				<button class="btn btn-default" type="submit" name="submit" style="width: 50%; height: 30px;" value="Back">Back</button> 
+			</form>
+		</td>
+		</tr>
+	</table>
+  
+</div>
+</body>
+</html>

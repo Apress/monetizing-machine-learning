@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Wine Quality Designer</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <style>
+    .slidecontainer {
+        width: 90%;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+    </style>
+</HEAD>
+ 
+<BODY>
+    <div class="container">
+        <table  style="background-color:black;"> <tr><td>
+        <img src="static/images/quality_wine_logo.jpg" alt="Wine Quality Logo" style='padding:1px; border:0px solid #021a40; width: 300px; height: 200px'>
+        </td> 
+        <td width="600px"> 
+        <h1><font color="white">Chapter 4: Wine Quality Designer</font></h1>
+    </td> 
+    </tr> <table>
+    </div>
+
+    <table cellpadding="10">
+        <TR>
+            <td colspan="3"><H3>Customize your wine parameters and get real-time quality predictions!</H3></td>
+        </TR>
+
+        <TR>
+         <TD width="300px"> 
+
+            <div class="slidecontainer">
+                <label>White or Red: <span id="color_value"></span></label>
+                <input type="range" min="0" max="1" value="1" class="slider" id="color_range" step="1">
+            </div>
+
+            <div class="slidecontainer">
+                <label>Fixed Acidity: <span id="fixed_acidity_value"></span></label>
+                <input type="range" min="3.5" max="16.5" value="7.5" class="slider" id="fixed_acidity_range" step="0.5">
+            </div>
+             
+            <div class="slidecontainer">
+                <label>Volatile Acidity: <span id="volatile_acidity_value"></span></label>
+                <input type="range" min="0.08" max="1.60" value="0.38" class="slider" id="volatile_acidity_range" step="0.08">
+            </div>
+
+            <div class="slidecontainer">
+                <label>Citric Acid: <span id="citric_acid_value"></span></label>
+                <input type="range" min="0.0" max="1.6" value="0.3" class="slider" id="citric_acid_range" step="0.1">
+            </div>
+
+            <div class="slidecontainer">
+                <label>Residual Sugar: <span id="residual_sugar_value"></span></label>
+                <input type="range" min="0.5" max="66.5" value="5.5" class="slider" id="residual_sugar_range" step="0.5">
+            </div>
+
+            <div class="slidecontainer">
+                <label>Chlorides: <span id="chlorides_value"></span></label>
+                <input type="range" min="0.01" max="0.62" value="0.05" class="slider" id="chlorides_range" step="0.01">
+            </div>
+
+        </td>
+
+        <td width="300px"> 
+            <label>Estimated quality score: <span id="estimated_quality"></span></label>
+             <p style="text-align:center">
+                <img src="static/images/wine_red_6.jpg" alt="wine quality score" id="img_quality" style='padding:1px; border:1px solid #021a40; width: 100%; height: 100%'>
+             </p>
+        </td>
+
+         <td width="300px"> 
+
+
+            <div class="slidecontainer">
+                <label>Free Sulfur Dioxide: <span id="free_sulfur_dioxide_value"></span></label>
+                <input type="range" min="1" max="291" value="30" class="slider" id="free_sulfur_dioxide_range" step="5">
+            </div>
+
+            <div class="slidecontainer">
+                <label>Total Sulfur Dioxide: <span id="total_sulfur_dioxide_value"></span></label>
+                <input type="range" min="5" max="440" value="115" class="slider" id="total_sulfur_dioxide_range" step="5">
+            </div>
+             
+            <div class="slidecontainer">
+                <label>Density: <span id="density_value"></span></label>
+                <input type="range" min="0.98" max="1.04" value="0.99" class="slider" id="density_range" step="0.01">
+            </div>
+
+            <div class="slidecontainer">
+                <label>pH: <span id="pH_value"></span></label>
+                <input type="range" min="2.7" max="4.1" value="3.2" class="slider" id="pH_range" step="0.1">
+            </div>
+             
+            <div class="slidecontainer">
+                <label>Sulphates: <span id="sulphates_value"></span></label>
+                <input type="range" min="0.2" max="2.0" value="0.5" class="slider" id="sulphates_range" step="0.1">
+            </div>
+
+            <div class="slidecontainer">
+                <label>Alcohol: <span id="alcohol_value"></span></label>
+                <input type="range" min="8.0" max="15.0" value="10.5" class="slider" id="alcohol_range" step="0.5">
+            </div>
+
+        </td>
+        </tr>
+        </table>
+    </p>
+
+</BODY>
+
+<script>
+    var slider1 = document.getElementById("fixed_acidity_range");
+    var output1 = document.getElementById("fixed_acidity_value");
+    output1.innerHTML = slider1.value;
+    slider1.oninput = function() {
+      output1.innerHTML = this.value;
+    }
+
+    var slider2 = document.getElementById("volatile_acidity_range");
+    var output2 = document.getElementById("volatile_acidity_value");
+    output2.innerHTML = slider2.value;
+    slider2.oninput = function() {
+      output2.innerHTML = this.value;
+    }
+
+    var slider3 = document.getElementById("citric_acid_range");
+    var output3 = document.getElementById("citric_acid_value");
+    output3.innerHTML = slider3.value;
+    slider3.oninput = function() {
+      output3.innerHTML = this.value;
+    }
+
+    var slider4 = document.getElementById("residual_sugar_range");
+    var output4 = document.getElementById("residual_sugar_value");
+    output4.innerHTML = slider4.value;
+    slider4.oninput = function() {
+      output4.innerHTML = this.value;
+    }
+
+    var slider5 = document.getElementById("chlorides_range");
+    var output5 = document.getElementById("chlorides_value");
+    output5.innerHTML = slider5.value;
+    slider5.oninput = function() {
+      output5.innerHTML = this.value;
+    }
+
+    var slider6 = document.getElementById("free_sulfur_dioxide_range");
+    var output6 = document.getElementById("free_sulfur_dioxide_value");
+    output6.innerHTML = slider6.value;
+    slider6.oninput = function() {
+      output6.innerHTML = this.value;
+    }
+
+    var slider7 = document.getElementById("total_sulfur_dioxide_range");
+    var output7 = document.getElementById("total_sulfur_dioxide_value");
+    output7.innerHTML = slider7.value;
+    slider7.oninput = function() {
+      output7.innerHTML = this.value;
+    }
+
+    var slider8 = document.getElementById("density_range");
+    var output8 = document.getElementById("density_value");
+    output8.innerHTML = slider8.value;
+    slider8.oninput = function() {
+      output8.innerHTML = this.value;
+    }
+
+    var slider9 = document.getElementById("pH_range");
+    var output9 = document.getElementById("pH_value");
+    output9.innerHTML = slider9.value;
+    slider9.oninput = function() {
+      output9.innerHTML = this.value;
+    }
+
+    var slider10 = document.getElementById("sulphates_range");
+    var output10 = document.getElementById("sulphates_value");
+    output10.innerHTML = slider10.value;
+    slider10.oninput = function() {
+      output10.innerHTML = this.value;
+    }
+
+    var slider11 = document.getElementById("alcohol_range");
+    var output11 = document.getElementById("alcohol_value");
+    output11.innerHTML = slider11.value;
+    slider11.oninput = function() {
+      output11.innerHTML = this.value;
+    }
+
+    var slider12 = document.getElementById("color_range");
+    var output12 = document.getElementById("color_value");
+    output12.innerHTML = slider12.value;
+    slider12.oninput = function() {
+      output12.innerHTML = this.value;
+    }
+
+    var logger = '';
+
+    function update_dashboard(quality_prediction, image_name){
+        estimated_quality.innerHTML = quality_prediction;
+        img_quality.src = image_name; 
+    }
+         
+    function fetchdata()
+    {
+        // AJAX code for dynamic communication between server and client
+        $.getJSON({
+            type : "GET",
+            url:'{{ url_for('background_process') }}',
+            data:{ 'fixed_acidity': document.getElementById("fixed_acidity_value").innerHTML,
+                'volatile_acidity': document.getElementById("volatile_acidity_value").innerHTML,
+                'citric_acid': document.getElementById("citric_acid_value").innerHTML,
+                'residual_sugar': document.getElementById("residual_sugar_value").innerHTML,
+                'chlorides': document.getElementById("chlorides_value").innerHTML,
+                'free_sulfur_dioxide': document.getElementById("free_sulfur_dioxide_value").innerHTML,
+                'total_sulfur_dioxide': document.getElementById("total_sulfur_dioxide_value").innerHTML,
+                'density': document.getElementById("density_value").innerHTML,
+                'pH': document.getElementById("pH_value").innerHTML,
+                'sulphates': document.getElementById("sulphates_value").innerHTML,
+                'alcohol': document.getElementById("alcohol_value").innerHTML,
+                'color': document.getElementById("color_value").innerHTML},
+            success: function(data){
+                logger = data.quality_prediction;
+                update_dashboard(data.quality_prediction, data.image_name);}
+             
+        });
+    }
+
+    // add event listener to capture changes to wine parameters  
+    document.addEventListener ("mouseup", function () {fetchdata()}, false);
+     
+</script>
+</HTML>

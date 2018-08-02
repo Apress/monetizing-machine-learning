@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<META name="viewport" content="width=device-width, initial-scale=1">
+	<META charset="UTF=8">
+	<TITLE>A/B Testing - Do You Like Me?</TITLE>
+	<LINK rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<SCRIPT src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></SCRIPT>
+	<SCRIPT src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></SCRIPT>
+	<SCRIPT src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></SCRIPT>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+
+	body {
+		background-repeat: no-repeat;
+	}
+
+	.fa {
+	    font-size: 50px;
+	    cursor: pointer;
+	    user-select: none;
+	}
+
+	.fa:hover {
+	  color: green;
+	}
+
+	#footer {
+		text-align: left;
+	    position: fixed;
+	    bottom: 0;
+	    width: 100%;
+	    padding-left: 10px;
+	}
+
+ 
+</style>
+</head>
+<body background="/static/images/{{background_image}}">
+<h2><p style="text-align:center"><b><font face="verdana" color="SteelBlue">Chapter 14: Do You Like Me?</font></b></p></h2>
+<p id='footer'><font face="verdana" color="Tomato" size=5>{{message}}</font>
+	<br><i onclick="toggleThumbs(this)" class="fa {{thumbs}}"></i>
+	 <form method="post" id="ABForm" action="{{ url_for('index') }}">
+	 	<input type="hidden" name="uuid" value="{{uuid}}">
+	 	<input type="hidden" name="pageid" value="{{pageid}}">
+     </form>
+</p>
+</body>
+
+<script>
+function toggleThumbs(x) {
+    document.getElementById("ABForm").submit();
+}
+</script>
+
+</html>

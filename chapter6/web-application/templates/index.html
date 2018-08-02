@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Crime In San Franciso</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=<<ADD-YOUR-GOOGLE-API-KEY-HERE>>&libraries=visualization&callback=initMap">
+    </script>
+ 
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 50%;
+        width: 700px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 25%;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        z-index: 5;
+      }
+    </style>
+  </head>
+
+  <body>
+        <table border=0 cellpadding="1" style="width: 700px; background-color:black;">
+            <tr>
+                <td><p style="text-align:center">
+                    <img src="static/images/cop.jpg" alt="cop" style='padding:0px; border:0px solid #021a40; width: 100%; height: 100%'>
+                  </p>
+                </td>
+                  <td><h1><p style="text-align:center"><font color="white">Chapter 6: Predicting Crime In San Francisco</font></p></h1></td>
+                <td> <p style="text-align:center">
+                    <img src="static/images/thief.jpg" alt="thief" style='padding:0px; border:0px solid #021a40; width: 100%; height: 100%'>
+                  </p></td>
+            </tr>
+             <tr>
+                <td>
+                  <div id="time_segment" class='time_segment'>{{time_segment_int}}</div>
+                </td>
+                <td>
+                  
+                <p style="text-align:center">
+                    <img src="{{image_source}}" alt="time segment" id="time_segment_image"
+                    style='padding:0px; border:0px solid #021a40; width: 50px; height: 50px'>
+                  </p>
+                </td>
+                <td>
+                 
+                </td>
+            </tr>
+           
+        </table>
+  
+ 
+    <div id="map"></div>
+    <script> 
+
+      // This example requires the Visualization library. Include the libraries=visualization
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+
+      var map, heatmap;
+ 
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: {lat: 37.775, lng: -122.434},
+          mapTypeId: 'satellite'
+        });
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getPoints(),
+          map: map
+        });
+      }
+
+      function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+      function changeGradient() {
+        var gradient = [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+      }
+
+     
+
+      // Heatmap data
+      function getPoints() {
+        return [{{crime_horizon}}];
+      }
+    </script>
+
+        <table border=1 cellpadding="1" style="width: 700px; background-color:black;">
+            <tr>
+                <td><p style="text-align:center">
+                  <form id='submit_params' method="POST" action="{{ url_for('build_page') }}">
+                    <div class="slidecontainer" style='width: 100%;'>
+                    <label><font color="white">Select crime horizon: <span id="label_slider_value">{{date_horizon}}</span></font></label><BR>
+                    <input type="range" min="1" max="210" value="{{current_value}}" name="slider_crime_horizon" 
+                      id="slider_crime_horizon" step="1" style='width: 100%;'>
+                  </div>
+                </form>
+             </td>
+          </tr>
+      </table>
+
+
+     <script>
+        // Slider logic
+        var slider1 = document.getElementById("slider_crime_horizon");
+        var output1 = document.getElementById("label_slider_value");
+
+          slider1.onmouseup = function () {
+            document.getElementById("submit_params").submit();
+          }
+
+        slider1.oninput = function() {
+            var horizon_date = new Date();
+            horizon_date.setDate(horizon_date.getDate() + Math.trunc(parseInt(this.value)/3));
+            output1.innerHTML = (horizon_date.getMonth()+1) + "/" + horizon_date.getDate() + "/" + horizon_date.getFullYear(); //this.value;
+
+            if ((parseInt(this.value)/3) % 3 == 0) {
+              time_segment_image.src = "static/images/morning.jpg"; 
+            }
+            else if ((parseInt(this.value)/3) % 3 == 1) {
+              time_segment_image.src = "static/images/afternoon.jpg";
+            }
+            else {
+              time_segment_image.src = "static/images/night.jpg"; 
+            }
+        }
+ 
+     </script>
+    </body>
+</html>
+
+
+

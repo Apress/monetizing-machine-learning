@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<meta charset="UTF=8">
+  	<title>Will I Golf Tomorrow?</title>
+  	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+    
+    <table border="0" cellpadding="1" style="width: 700px; background-color:black;">
+      <tr>
+        <td><H1><p style="text-align:center"><font color="white">Chapter 7:<BR> Will I Golf Tomorrow?</font></p></H1></td>
+      </tr>
+      
+      <tr>
+        <td>
+ 
+
+        <table border="2" cellpadding="0">
+          <tr> 
+        <td valign="top">  
+
+            <!-- Form submit section -->
+            <form id='submit_params' method="POST" action="{{ url_for('PlayGolf') }}">
+                <table border=0 cellpadding="1" style="width: 100%; background-color:black;">
+                  <tr>
+                    <td>
+                          <label for="label_location"><font color="white">Enter City:</font></label>
+                    </td> 
+                    <td>
+                          <label for="label_time"><font color="white">Time:</font></label>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <input type="text" class="form-control" id="location" style="width: 200px; height: 30px;"
+                             name="selected_location" value="{{selected_location_raw}}">
+                    </td> 
+                    <td>
+                          <SELECT class="selectpicker" name="selected_time" style="width: 100px; height: 30px;">
+                            <option value="{{selected_time}}" selected>{{selected_time_bracket}}</option>
+                              <option value=6>6AM-9AM</option>
+                              <option value=9>9AM-12PM</option>
+                              <option value=12>12PM-3PM</option>
+                              <option value=15>3PM-6PM</option>
+                              <option value=18>6PM-9PM</option>
+                              <option value=21>9PM-12AM</option>
+                          </SELECT>
+                    </td>
+
+                    <td><button class="btn btn-default" type="submit" style="width: 80px; height: 30px;">Golf?</button></td>
+                  </tr>
+                </table> 
+              </form> 
+
+              <!-- Results display section -->
+              <table border=0 cellpadding=5>
+                
+                  {% if (outlook != "None") and (prediction_actual == 1) %}
+
+                    <tr>
+                      <td align="center"><p style="text-align:center"><H2><img src="http://openweathermap.org/img/w/{{outlook_icon}}" alt="weather icon" style='padding:0px; border:0px solid #021a40;'><font color="lightgreen">YEEES, GOLF!!!!!</font><img src="http://openweathermap.org/img/w/{{outlook_icon}}" alt="weather icon" style='padding:0px; border:0px solid #021a40;'></H2><BR>
+                      <font color="white">There's a {{prediction_proba}}% chance you will golf tomorrow in {{selected_location_raw}} between {{selected_time_bracket}}, go prep those clubs!!!</font></p></td>
+                    </tr>
+
+                  {% elif (outlook != "None") %}
+
+                    <tr>
+                       <td align="center"><p style="text-align:center"><H2><img src="http://openweathermap.org/img/w/{{outlook_icon}}" alt="weather icon" style='padding:0px; border:0px solid #021a40;'><font color="salmon">Sorry, No Golf...</font><img src="http://openweathermap.org/img/w/{{outlook_icon}}" alt="weather icon" style='padding:0px; border:0px solid #021a40;'></H2><BR>
+                       <font color="white">Unfortunately, there's only a {{prediction_proba}}% chance for golf tomorrow in {{selected_location_raw}} between {{selected_time_bracket}}</font></p></td>
+                    </tr>
+
+                  {% else %}
+
+                    <tr>
+                        <td><p style="text-align:center"><H3><font color="white">{{message}}</font></H3></p></td>
+                    </tr>
+
+                  {% endif %}
+
+                  {% if (outlook != "None") %}
+                    <!-- Show forecast section -->
+                    <tr>
+                      <td align="center">
+                        <table border=1 cellpadding=5>
+                          <tr><td colspan="2"><p style="text-align:center"><font color="white">Tomorrow's Forecast<br>{{time_stamp_date}}</font></p></td></tr>
+
+                          <tr><td><font color="white">Outlook</font></td><td><font color="white">{{outlook}}</font></td></tr>
+                          <tr><td><font color="white">Temperature</font></td><td><font color="white">{{temperature}}F, {{temperature_nominal}}</font></td></tr>
+                          <tr><td><font color="white">Humidity</font></td><td><font color="white">{{humidity}}%, {{humidity_nominal}}</font></td></tr>
+                          <tr><td><font color="white">Windy</font></td><td><font color="white">{{iswindy}}</font></td></tr>             
+                        
+                      </table>
+                     </tr>
+                 
+                 {% endif %}
+                
+            </table>
+ 
+
+        </td>
+        <td valign="top">  
+          <p style="text-align:center">
+            {% if (outlook != "None") and (prediction_actual == 0) %}
+              <img src="static/images/no-golf.jpg" alt="golf or not" style='padding:0px; border:0px solid #021a40; width: 100%; height: 100%'>
+            {% else %}
+              <img src="static/images/go-golf.jpg" alt="golf or not" style='padding:0px; border:0px solid #021a40; width: 100%; height: 100%'>
+            {% endif %}
+          </p>
+         </td>
+
+        </tr>
+
+        </table>
+           
+
+
+        </td>
+      </tr>
+    </table>
+
+
+    
+  </body>
+</html>
+
+
+

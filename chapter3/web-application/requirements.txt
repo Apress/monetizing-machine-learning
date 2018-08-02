@@ -1,0 +1,16 @@
+click==6.7
+Flask==0.12.2
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+numpy==1.14.2
+scikit-learn 
+scipy
+python-dateutil==2.7.2
+pytz==2018.4
+six==1.11.0
+Werkzeug==0.14.1
+Pillow>=1.0
+matplotlib 
+gunicorn>=19.7.1
+

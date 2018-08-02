@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF=8">
+    <title>Guess My Number</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+ 
+    <script type="text/javascript">
+    var canvas, ctx, flag = false,
+        prevX = 0,
+        currX = 0,
+        prevY = 0,
+        currY = 0,
+        dot_flag = false;
+
+    var x = "black",
+        y = 20;
+    
+    function init() {
+        canvas = document.getElementById('canvas_area');
+        ctx = canvas.getContext("2d");
+        w = canvas.width;
+        h = canvas.height;
+
+        canvas.addEventListener("mousemove", function (e) {
+            findxy('move', e)
+        }, false);
+        canvas.addEventListener("mousedown", function (e) {
+            findxy('down', e)
+        }, false);
+        canvas.addEventListener("mouseup", function (e) {
+            findxy('up', e)
+        }, false);
+        canvas.addEventListener("mouseout", function (e) {
+            findxy('out', e)
+        }, false);
+ 
+    }
+    
+    function draw() {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x;
+        ctx.lineWidth = y;
+        ctx.shadowBlur = 2;
+        ctx.lineJoin = ctx.lineCap = 'round';
+        ctx.stroke();
+        ctx.closePath();
+    }
+    
+    function erase() {
+        ctx.clearRect(0, 0, w, h); 
+        predicted_digit.innerHTML = '?';
+    }
+     
+    function findxy(res, e) {
+        if (res == 'down') {
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft;
+            currY = e.clientY - canvas.offsetTop;
+    
+            flag = true;
+            dot_flag = true;
+            if (dot_flag) {
+                ctx.beginPath();
+                ctx.fillStyle = x;
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+                dot_flag = false;
+            }
+        }
+        if (res == 'up' || res == "out") {
+            flag = false;
+        }
+        if (res == 'move') {
+            if (flag) {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - canvas.offsetLeft;
+                currY = e.clientY - canvas.offsetTop;
+                draw();
+            }
+        }
+    }
+
+    function SetBrushSize() {
+        y = document.getElementById("brush_select").value;
+        
+    }
+
+    </script>
+ 
+
+
+    <body onload="init()">
+
+        <table border="0" cellpadding="0" cellspacing="0">
+             <tr>
+                <td colspan="3" align="center" style='background-color: black;'>
+                    <H1><font color="darkyellow">Chapter 8: What's My Number?</font></H1>
+                    <H3><font color="gold">Draw a digit between 0 and 9 and <BR>click 'Predict' to have the model divine it!</font></H3></td>
+            </tr>
+            <tr>
+                <td colspan="3"><img src="static/images/top.png" alt="top" width="734" height="329"></td>
+            </tr>
+            <tr>
+                <td align="left"><img src="static/images/left.png" alt="top" width="209" height="332"></td>
+                <td><canvas id="canvas_area" width="280" height="280" 
+                    style="position:relative;top:0%;left:0%;border:2px solid; background-color: white"></canvas></td>
+                <td align="right"><img src="static/images/right.png" alt="top" width="209" height="332"></td>
+            </tr>
+             <tr>
+                <td></td>
+                <td>
+                    <input type="button" value="Predict" id="btn" size="30" onclick="fetchdata()">
+                    <input type="button" value="clear" id="clr" size="23" onclick="erase()">
+                    <label>Brush Size:</label> 
+                    <select id="brush_select" onchange="SetBrushSize()">
+                          <option value="20">20</option>
+                          <option value="30" selected>30</option> 
+                          <option value="50">50</option>
+                          <option value="80">80</option>
+                        </select> 
+                    </td>
+                <td></td>
+            </tr>
+        </table>
+        
+        <label id='predicted_digit' name='predicted_digit' style="font-size:32px; position:absolute; top:200px; left:360px; width:30px;height:50px;border:2px solid;background-color: lightgreen"> {{prediction}}
+        </label> 
+ 
+ 
+    </body>
+
+
+    <script>
+    function update_dashboard(prediction){
+        predicted_digit.innerHTML = prediction;
+    }
+  
+    function fetchdata()
+    { 
+        $.ajax({
+            type : "POST",
+            url:'{{ url_for('background_process') }}',
+            data:{'drawing_data': canvas_area.toDataURL()},
+            success: function(data){
+                update_dashboard(data.prediction);
+            }
+        });
+    }
+  
+    </script>
+ 
+    </html>

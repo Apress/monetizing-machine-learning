@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Titanic Journey Simulation</title>
+</head>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<body>
+<div class="container">
+
+<form id='submit_params' method="POST" action="{{ url_for('submit_new_profile') }}">
+<div class="form-group">
+<table class="table">
+    <tr>
+        <td width="300px"><p style="text-align:center"><h1>Chapter 3<BR>Design Your Titanic Traveler</h1></p></td>
+        <td><p style="text-align:center">
+			<img src="static/images/small_titanic.jpg" alt="titanic" style='padding:1px; border:1px solid #021a40; width: 80%; height: 80%'>
+			</p>
+		</td>
+        <td width="200px"><p style="text-align:center"><h3>Cabin and Port of Embarcation Details</h3></p></td>
+    </tr>
+    <tr>
+        <td>
+            <table class="table" border=0 >
+                <tr>
+                    <td><label for="male">Port of Embarcation</label></td>
+                    <td>
+                     <SELECT class="selectpicker" name="selected_embarked">
+				          <option value="{{selected_embarked}}" selected>{{selected_embarked}}</option>
+				          <option>Cherbourg</option>
+				          <option>Queenstown</option>
+				          <option>Southampton</option>
+				      </SELECT>
+					</td>
+                </tr>
+                <tr>
+                    <td><label for="male">Fare</label></td>
+                    <td><input type="number" class="form-control" id="fare"
+                    	placeholder="Enter fare" name="selected_fare" value="{{selected_fare}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="male">Age</label></td>
+                    <td>
+                       <SELECT class="selectpicker" name="selected_age">
+				        <option value="{{selected_age}}" selected>{{selected_age}}</option>
+				       {% for age in range(0,100) %}
+				           <option>{{age}}</option>
+				       {% endfor %}
+				      	</SELECT>
+				    </td>
+                </tr>
+                <tr>
+                    <td><label for="male">Gender</label></td>
+                    <td>
+                     <SELECT class="selectpicker" name="selected_gender">
+				          <option value="{{selected_gender}}" selected>{{selected_gender}}</option>
+				          <option value='Male'>Male</option>
+				          <option value='Female'>Female</option>
+				      </SELECT>
+					</td>
+                </tr>
+                <tr>
+                    <td><label for="male">Title</label></td>
+                    <td>
+                     <SELECT class="selectpicker" name="selected_title">
+						<option value="{{selected_title}}" selected>{{selected_title}}</option>
+						<option value="Dr.">Dr.</option>
+						<option value="Master.">Master.</option>
+						<option value="Miss.">Miss.</option>
+						<option value="Mr.">Mr.</option>
+						<option value="Mrs.">Mrs.</option>
+						<option value="Master.">Master.</option>
+						<option value="Unknown.">Unknown</option>
+						<option value="Rev.">Rev.</option>
+				      </SELECT>
+					</td>
+                </tr>
+                <tr>
+                    <td><label for="male">Class</label></td>
+                    <td>
+                     <SELECT class="selectpicker" name="selected_class">
+						<option value="{{selected_class}}" selected>{{selected_class}}</option>
+						<option value='First'>First</option>
+						<option value='Second'>Second</option>
+						<option value='Third'>Third</option>
+					</td>
+                </tr>
+                <tr>
+                    <td><label for="male">Cabin</label></td>
+                    <td>
+                     <SELECT class="selectpicker" name="selected_cabin">
+						<option value="{{selected_cabin}}" selected>{{selected_cabin}}</option>
+						<option>A</option>
+						<option>B</option>
+						<option>C</option>
+						<option>D</option>
+						<option>E</option>
+						<option>F</option>
+						<option>G</option>
+						<option>T</option>
+						<option>Unknown</option>
+					</td>
+                </tr>
+                <tr>
+                    <td><label for="male">Number of Siblings/Spouses</label></td>
+                    <td>
+                    	<SELECT class="selectpicker" name="selected_sibsp">
+				        <option value="{{selected_sibsp}}" selected>{{selected_sibsp}}</option>
+				       {% for sibsp in range(0,10) %}
+				           <option>{{sibsp}}</option>
+				       {% endfor %}
+				      	</SELECT>
+				  	</td>
+                </tr>
+                <tr>
+                    <td><label for="male">Number of Parents/Children</label></td>
+                    <td>
+                    	<SELECT class="selectpicker" name="selected_parch">
+				        <option value="{{selected_parch}}" selected>{{selected_parch}}</option>
+				       {% for parch in range(0,10) %}
+				           <option>{{parch}}</option>
+				       {% endfor %}
+				      	</SELECT>
+				  	</td>
+                </tr>
+
+          </table>
+
+        </td>
+
+        <td>{{model_results}}<BR>{{model_plot}}
+        </td>
+        <td>
+        	<p style="text-align:center">Cabin Key</p>
+        	<p style="text-align:center">
+			<img src="static/images//small_cabin_location.png" alt="cabin locations" style='padding:1px; border:1px solid #021a40; width: 100%; height: 100%'>
+			</p></td>
+    </tr>
+    <td><button class="btn btn-default" type="submit" style="width: 100px; height: 30px;">All Aboard!</button></td><td></td><td></td>
+    <tr>
+</table>
+</div>
+</form>
+
+</div>
+</body>
+</html>

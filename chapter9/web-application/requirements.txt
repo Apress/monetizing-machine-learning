@@ -1,0 +1,4 @@
+Flask>=0.12
+matplotlib 
+pandas
+numpy

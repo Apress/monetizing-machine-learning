@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Spam in your Ham</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <style>
+        .gallery-image{
+            cursor:pointer;
+            position: relative;
+            display: block;  }
+
+        .gallery-text{
+            position: absolute;
+            top: 0; right: 0;
+            bottom: 0; left: 0;
+            width: 200px;
+            height: 50px; 
+            text-align: center;
+            vertical-align:middle;
+            color: darkblue;
+            display: inline-table;
+            vertical-align:middle;
+            line-height:100%; }
+    </style>
+
+
+</HEAD>
+ 
+<BODY>
+  
+ 
+
+<TABLE border=0 cellpadding="15">
+<TR>
+    <TD>
+        <TABLE border=0 cellpadding="1">
+            <TR>
+                <TD colspan="2">
+                    <TABLE border=0 cellpadding="10">
+                        <TR>
+                            <TD><img src="static/images/spam.png" alt="Spam" 
+                                style='padding:1px; border:0px solid #021a40; width: 150px; height:90px;'>
+                            </TD>
+                            <TD><H1>Chapter 11: How Much Spam in Your Ham?<H1></TD>
+                            <TD><img src="static/images/ham.png" alt="Ham" 
+                                style='padding:1px; border:0px solid #021a40; width: 150px; height:90px;'>
+                            </TD>
+                        </TR>
+                    </TABLE>
+            </TR>
+            <TR>
+               <TD colspan="2">
+                    <div align="center">
+                        <H3>Click along the ROC curve and customize the amount of spam that makes it <BR>into your email box</H3>
+                    </div>
+                </TD>
+                
+            </TR>
+            <TR>
+                <TD>
+                    <div align="center">
+                    <H4><a href='https://en.wikipedia.org/wiki/Receiver_operating_characteristic' target='_blank'>Receiver Operating Characteristic Curve</a></H4></div>
+                </TD> 
+                <TD>
+                    <div align="center">
+                    <H4><a href='https://en.wikipedia.org/wiki/Confusion_matrix' target='_blank'>Confusion Matrix</a></H4></div>
+                </TD>
+            </TR>
+            <TR>
+                <TD style="background-color:lightgray;">
+                   <form name="pointform" method="post">
+                        <div id="pointer_div" onclick="point_it(event)" 
+                            style = "background-image:url('static/images/roc-chart.png');width:449px;height:441px;"></div>
+                        <div align="center"><H3>Custom threshold selected: <span id='new_threshold'>0.5</span></H3></div>
+                    </form> 
+                </TD>
+
+                <TD align = "center">
+                    <table style="background-color:white;border: 2px solid black;">
+                        <TR style="background-color:white;border: 2px solid black;">
+                        <TD style="background-color:lightblue;border: 2px solid black;">
+
+                             <div class="gallery-image">
+                                <img src="static/images/08.png" alt="Spam" id="tp_img" 
+                                        style='padding:1px; border:0px solid #021a40;'>
+                                <div class="gallery-text"><h3>Ham as Ham<BR><BR><font size="10"><span id="tp_value">87.01%</span></font></h3>
+                            </div></div>
+
+                        </TD>
+                        <TD style="background-color:lightsalmon;border: 2px solid black;">
+
+                             <div class="gallery-image">
+                                <img src="static/images/08.png" alt="Spam"  id="fn_img" 
+                                        style='padding:1px; border:0px solid #021a40;'>
+                                <div class="gallery-text"><h3>Ham as Spam<BR><BR><font size="10" id="fn_value">0.01%</font></h3>
+                            </div></div>
+
+                        </TD>
+                       </TR>
+                       <TR>
+                        <TD style="background-color:lightsalmon;border: 2px solid black;">
+
+                              <div class="gallery-image">
+                                <img src="static/images/02.png" alt="Spam"  id="fp_img" 
+                                        style='padding:1px; border:0px solid #021a40;'>
+                                <div class="gallery-text"><h3>Spam as Ham<BR><BR><font size="10" id="fp_value">7.46%</font></h3>
+                            </div></div>
+
+                        </TD>
+                        <TD style="background-color:lightblue;border: 2px solid black;">
+                              <div class="gallery-image">
+                                <img src="static/images/14.png" alt="Spam"  id="tn_img" 
+                                        style='padding:1px; border:0px solid #021a40;'>
+                                <div class="gallery-text"><h3>Spam as Spam<BR><BR><font size="10" id="tn_value">5.06%</font></h3>
+                            </div></div>
+                        </TD>
+                      </TR>
+                 </table>
+                </TD>
+            </TR>
+        </TABLE>
+        </TD>
+    </TR>
+
+</TABLE>
+ 
+</BODY>
+
+
+
+<script language="JavaScript">
+
+
+    <!-- http://www.emanueleferonato.com/2006/09/02/click-image-and-get-coordinates-with-javascript/ -->
+    function point_it(event){
+        cur_x_coord = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
+        cur_y_coord = event.offsetY?(event.offsetY):event.pageY-document.getElementById("pointer_div").offsetTop;
+
+        <!-- send coordinates back to Flask application -->
+        fetchdata(cur_x_coord, cur_y_coord)
+    }
+
+
+    function fetchdata(cur_x_coord, cur_y_coord)
+    {
+ 
+        $.getJSON({
+            type : "GET",
+            url:'{{ url_for('background_process') }}',
+            data:{ 'new_x_coord': cur_x_coord, 'new_y_coord': cur_y_coord},
+            success: function(data){
+                update_dashboard(data.threshold, data.tp,data.tn,data.fp, data.fn, data.image_tp, 
+                    data.image_tn, data.image_fp, data.image_fn);}
+             
+        });
+    }
+
+    function update_dashboard(threshold, tp, tn, fp, fn, image_tp, image_tn, image_fp, image_fn){
+        new_threshold.innerHTML = threshold;
+        tp_value.innerHTML = tp + '%';
+        tp_img.src = image_tp; 
+        tn_value.innerHTML = tn + '%';
+        tn_img.src = image_tn;        
+        fp_value.innerHTML = fp + '%';
+        fp_img.src = image_fp; 
+        fn_value.innerHTML = fn + '%';
+        fn_img.src = image_fn;
+    }
+
+
+
+</script>
+
+</HTML>

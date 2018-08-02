@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>PayPal Donantion </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container">
+  <H1>Welcome! Thanks for supporting us!!</H1>
+  <H2>Click on the PayPal button below to donate to the site.</H2>
+  <br /> <br />
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+      <!-- Identify your business so that you can collect the payments. -->
+      <input type="hidden" name="business" value="amunategui@gmail.com">
+
+      <!-- Specify a Donate button. -->
+      <input type="hidden" name="cmd" value="_donations">
+
+      <!-- Specify details about the contribution -->
+      <input type="hidden" name="item_name" value="Donate to support these great blog posts!">
+      <input type="hidden" name="item_number" value="Support">
+      <input type="hidden" name="currency_code" value="USD">
+
+      <!-- Display the payment button. -->
+      <input type="image" name="submit"
+      src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
+      alt="Donate">
+      <img alt="" width="1" height="1"
+      src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+
+  </form>
+</div>
+</body>
+</html>
+ 
